@@ -25,7 +25,8 @@ CREATE TABLE Clients (
   Address VARCHAR(100),
   Pref_Location VARCHAR(100),
   Pref_PropertyType VARCHAR(100),
-  Budget DOUBLE,
+  BudgetMin DOUBLE,
+  BudgetMax DOUBLE,
   Notes TEXT 
 );
 
@@ -42,4 +43,23 @@ CREATE TABLE Agents (
   Properties_Sold INTEGER,
   Properties_Rented INTEGER,
   Commision DOUBLE
+);
+
+
+-- Transaction
+
+CREATE TABLE Transaction (
+    Transaction_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Transaction_Type ENUM('sale', 'rental') NOT NULL,
+    Property_ID INT NOT NULL,
+    Client_ID INT NOT NULL,
+    Agent_ID INT NOT NULL,
+    Sale_Price DOUBLE,
+    Rental_Fee DOUBLE,
+    Commision_Ammount DOUBLE,
+    Payment_Schedule VARCHAR(200),
+    Transaction_Status ENUM('in-progress', 'completed', 'canceled') NOT NULL,
+    FOREIGN KEY (Property_ID) REFERENCES Property(Property_ID),
+    FOREIGN KEY (Client_ID) REFERENCES Clients(Client_ID),
+    FOREIGN KEY (Agent_ID) REFERENCES Agents(Agent_ID)
 );
